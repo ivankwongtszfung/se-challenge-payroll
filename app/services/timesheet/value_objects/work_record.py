@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
+from app.models import Period
 
 
 @dataclass
@@ -18,3 +19,6 @@ class WorkRecord:
             date=date.fromisoformat(timesheet["date"]),
             job_group=timesheet["job group"],
         )
+
+    def period(self) -> Period:
+        return Period(self.date.day > 15)
