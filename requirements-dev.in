@@ -1,0 +1,8 @@
+Faker
+black
+flake8
+ipython
+mypy
+pip-tools
+pytest
+tox

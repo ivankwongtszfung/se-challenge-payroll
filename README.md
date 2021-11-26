@@ -1,3 +1,10 @@
+# Submission Description
+
+```bash
+# To run test
+pytest -vv
+```
+
 # Wave Software Development Challenge
 
 Applicants for the Full-stack Developer role at Wave must
@@ -72,47 +79,47 @@ We've agreed to build an API with the following endpoints to serve HTTP requests
 
 As an example, given the upload of a sample file with the following data:
 
-   | date       | hours worked | employee id | job group |
-   | ---------- | ------------ | ----------- | --------- |
-   | 4/1/2023   | 10           | 1           | A         |
-   | 14/1/2023  | 5            | 1           | A         |
-   | 20/1/2023  | 3            | 2           | B         |
-   | 20/1/2023  | 4            | 1           | A         |
+| date      | hours worked | employee id | job group |
+| --------- | ------------ | ----------- | --------- |
+| 4/1/2023  | 10           | 1           | A         |
+| 14/1/2023 | 5            | 1           | A         |
+| 20/1/2023 | 3            | 2           | B         |
+| 20/1/2023 | 4            | 1           | A         |
 
 A request to the report endpoint should return the following JSON response:
 
-   ```json
-   {
-     "payrollReport": {
-       "employeeReports": [
-         {
-           "employeeId": "1",
-           "payPeriod": {
-             "startDate": "2023-01-01",
-             "endDate": "2023-01-15"
-           },
-           "amountPaid": "$300.00"
-         },
-         {
-           "employeeId": "1",
-           "payPeriod": {
-             "startDate": "2023-01-16",
-             "endDate": "2023-01-31"
-           },
-           "amountPaid": "$80.00"
-         },
-         {
-           "employeeId": "2",
-           "payPeriod": {
-             "startDate": "2023-01-16",
-             "endDate": "2023-01-31"
-           },
-           "amountPaid": "$90.00"
-         }
-       ]
-     }
-   }
-   ```
+```json
+{
+  "payrollReport": {
+    "employeeReports": [
+      {
+        "employeeId": "1",
+        "payPeriod": {
+          "startDate": "2023-01-01",
+          "endDate": "2023-01-15"
+        },
+        "amountPaid": "$300.00"
+      },
+      {
+        "employeeId": "1",
+        "payPeriod": {
+          "startDate": "2023-01-16",
+          "endDate": "2023-01-31"
+        },
+        "amountPaid": "$80.00"
+      },
+      {
+        "employeeId": "2",
+        "payPeriod": {
+          "startDate": "2023-01-16",
+          "endDate": "2023-01-31"
+        },
+        "amountPaid": "$90.00"
+      }
+    ]
+  }
+}
+```
 
 We consider ourselves to be language agnostic here at Wave, so feel free to use any combination of technologies you see fit to both meet the requirements and showcase your skills. We only ask that your submission:
 
