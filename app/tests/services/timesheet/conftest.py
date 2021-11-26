@@ -1,5 +1,5 @@
 import csv
-from datetime import datetime
+from datetime import date
 
 from pytest import fixture
 
@@ -7,7 +7,7 @@ from app.services.timesheet import WorkRecord
 
 
 @fixture
-def date(faker):
+def work_date(faker):
     return faker.date()
 
 
@@ -27,19 +27,19 @@ def job_group(faker):
 
 
 @fixture
-def work_record(date, employee_id, working_hour, job_group):
+def work_record(work_date, employee_id, working_hour, job_group):
     return WorkRecord(
-        date=date,
+        date=date.fromisoformat(work_date),
         employee_id=employee_id,
         job_group=job_group,
-        working_hour=working_hour,
+        working_hour=float(working_hour),
     )
 
 
 @fixture
-def timesheet_data(date, employee_id, working_hour, job_group):
+def timesheet_data(work_date, employee_id, working_hour, job_group):
     return {
-        "date": date,
+        "date": work_date,
         "hours worked": working_hour,
         "employee id": employee_id,
         "job group": job_group,

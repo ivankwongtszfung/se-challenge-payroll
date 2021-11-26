@@ -14,7 +14,7 @@ class WorkRecord:
     def from_timesheet(cls, timesheet: dict) -> WorkRecord:
         return cls(
             employee_id=int(timesheet["employee id"]),
-            working_hour=timesheet["hours worked"],
-            date=timesheet["date"],
+            working_hour=float(timesheet["hours worked"]),
+            date=date.fromisoformat(timesheet["date"]),
             job_group=timesheet["job group"],
         )
