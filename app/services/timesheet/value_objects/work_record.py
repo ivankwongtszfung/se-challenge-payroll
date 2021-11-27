@@ -22,3 +22,11 @@ class WorkRecord:
 
     def period(self) -> Period:
         return Period(self.date.day > 15)
+
+    def as_dict(self):
+        return {
+            "employee_id": self.employee_id,
+            "job_group_name": self.job_group,
+            "work_hour": self.working_hour,
+            "date": self.date,
+        }
