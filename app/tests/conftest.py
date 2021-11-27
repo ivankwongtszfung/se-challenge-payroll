@@ -7,7 +7,7 @@ from app.tests import Session
 # Base.metadata.create_all(bind=engine)
 
 
-@fixture(scope="session")
+@fixture
 def test_db_session():
     try:
         engine = sqlalchemy.create_engine("sqlite://")
