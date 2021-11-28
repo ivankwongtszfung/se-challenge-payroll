@@ -1,7 +1,10 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from app.models import Period
+
+
+DATEFORMAT = "%d/%m/%Y"
 
 
 @dataclass
@@ -16,7 +19,7 @@ class WorkRecord:
         return cls(
             employee_id=int(timesheet["employee id"]),
             working_hour=float(timesheet["hours worked"]),
-            date=date.fromisoformat(timesheet["date"]),
+            date=datetime.strptime(timesheet["date"], DATEFORMAT).date(),
             job_group=timesheet["job group"],
         )
 

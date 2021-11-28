@@ -7,8 +7,13 @@ from app.services.timesheet import WorkRecord
 
 
 @fixture
-def work_date(faker):
-    return faker.date()
+def fake_date(faker):
+    return faker.date_between()
+
+
+@fixture
+def work_date(fake_date):
+    return fake_date.strftime("%d/%m/%Y")
 
 
 @fixture
@@ -27,9 +32,9 @@ def job_group(faker):
 
 
 @fixture
-def work_record(work_date, employee_id, working_hour, job_group):
+def work_record(fake_date, employee_id, working_hour, job_group):
     return WorkRecord(
-        date=date.fromisoformat(work_date),
+        date=fake_date,
         employee_id=employee_id,
         job_group=job_group,
         working_hour=float(working_hour),
