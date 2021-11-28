@@ -15,6 +15,18 @@ def timesheet(test_db_session):
     return TimesheetFactory()
 
 
+def test_db_persister_check_exists_return_true(
+    test_db_session, data_persister, timesheet, work_record
+):
+    assert data_persister.check_report_exists(timesheet.id)
+
+
+def test_db_persister_check_exists_return_false_when_id_not_the_same(
+    test_db_session, data_persister, timesheet, work_record
+):
+    assert data_persister.check_report_exists(timesheet.id + 1) is None
+
+
 def test_db_persister_insert_row_success(
     test_db_session, data_persister, timesheet, work_record
 ):
@@ -27,10 +39,3 @@ def test_db_persister_cannot_insert_report_success(
 ):
     data_persister.save_report(report_id=faker.pyint(), path="")
     assert test_db_session.query(Timesheet).count()
-
-
-def test_db_persister_cannot_insert_report_again(
-    test_db_session, data_persister, faker, timesheet
-):
-    with raises(Exception):
-        data_persister.save_report(report_id=timesheet.id, path="")
