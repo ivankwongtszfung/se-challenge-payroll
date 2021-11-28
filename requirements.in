@@ -1,2 +1,6 @@
-sqlalchemy
 alembic
+fastapi 
+fastapi_camelcase 
+python-multipart
+sqlalchemy
+uvicorn

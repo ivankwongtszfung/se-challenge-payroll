@@ -6,8 +6,24 @@
 #
 alembic==1.7.5
     # via -r requirements.in
+anyio==3.4.0
+    # via starlette
+asgiref==3.4.1
+    # via uvicorn
+click==8.0.3
+    # via uvicorn
+colorama==0.4.4
+    # via click
+fastapi==0.70.0
+    # via -r requirements.in
+fastapi-camelcase==1.0.3
+    # via -r requirements.in
 greenlet==1.1.2
     # via sqlalchemy
+h11==0.12.0
+    # via uvicorn
+idna==3.3
+    # via anyio
 importlib-metadata==4.8.2
     # via alembic
 importlib-resources==5.4.0
@@ -16,10 +32,28 @@ mako==1.1.6
     # via alembic
 markupsafe==2.0.1
     # via mako
+pydantic==1.8.2
+    # via
+    #   fastapi
+    #   fastapi-camelcase
+pyhumps==3.0.2
+    # via fastapi-camelcase
+python-multipart==0.0.5
+    # via -r requirements.in
+six==1.16.0
+    # via python-multipart
+sniffio==1.2.0
+    # via anyio
 sqlalchemy==1.4.27
     # via
     #   -r requirements.in
     #   alembic
+starlette==0.16.0
+    # via fastapi
+typing-extensions==4.0.0
+    # via pydantic
+uvicorn==0.15.0
+    # via -r requirements.in
 zipp==3.6.0
     # via
     #   importlib-metadata
