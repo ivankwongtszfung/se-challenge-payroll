@@ -40,7 +40,7 @@ def time_report_part2():
 @fixture
 def time_resport_result(test_job_group):
     return {
-        "payroll_report": {
+        "payrollReport": {
             "employeeReports": [
                 {
                     "employeeId": "1",

@@ -26,7 +26,11 @@ class PayrollReport(CamelModel):
     employee_reports: List[EmployeeReports]
 
 
-@router.get("/", response_model=Dict[str, PayrollReport])
+class PayrollResponse(CamelModel):
+    payroll_report: PayrollReport
+
+
+@router.get("/", response_model=PayrollResponse)
 async def get_employee_reports(session: Session = Depends(get_db)):
     return {
         "payroll_report": {"employee_reports": EmploymentReport(db=session).create()}
