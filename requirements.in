@@ -2,5 +2,6 @@ alembic
 fastapi 
 fastapi_camelcase 
 python-multipart
+requests
 sqlalchemy
 uvicorn
