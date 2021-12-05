@@ -1,8 +1,16 @@
 # Submission Description
 
 ```bash
+# create virtualenv
+virtualenv env
+. env/Scripts/activate  # for window
+. env/bin/activate  # for unix
+# install dev dependancy
+pip install -r requirements-dev.txt
+# run project, documentation page serve in http://localhost:8000/docs
+./launch_dev.sh web_dev
 # To run test
-pytest -vv
+./launch_dev.sh tests
 ```
 
 # Wave Software Development Challenge
