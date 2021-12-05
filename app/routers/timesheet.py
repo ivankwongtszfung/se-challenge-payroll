@@ -1,7 +1,8 @@
 import re
 from codecs import iterdecode
+from http import HTTPStatus
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, Response
 from sqlalchemy.orm import Session
 
 from app.models.base import get_db
@@ -14,7 +15,7 @@ router = APIRouter(prefix="/timesheet", tags=["timesheet"])
 FILENAME_FORMAT = "time-report-(\d+).csv"
 
 
-@router.post("/file/", status_code=204)
+@router.post("/file/", status_code=HTTPStatus.NO_CONTENT.value)
 async def create_upload_file(
     file: UploadFile = File(...), session: Session = Depends(get_db)
 ):
@@ -28,4 +29,5 @@ async def create_upload_file(
     report = db_persister.save_report(report_id, file.filename)
     db_persister.save_record(report, work_records)
     session.commit()
-    return
+    return Response(status_code=HTTPStatus.NO_CONTENT.value)
+
