@@ -1,19 +1,27 @@
+from fastapi.testclient import TestClient
 from pytest import fixture
-import sqlalchemy
 
-from app.models.base import Base
-from app.tests import Session
+from app.main import app
+from app.models.base import Base, get_db
+from app.tests import Session, engine, override_get_db
+from app.tests.factories.job_group import JobGroupFactory
 
-# Base.metadata.create_all(bind=engine)
+
+@fixture(scope="function")
+def test_db_session():
+    try:
+        Base.metadata.create_all(bind=engine)
+        yield Session
+    finally:
+        Session.rollback()
+        Base.metadata.drop_all(bind=engine)
+        Session.close()
 
 
 @fixture
-def test_db_session():
-    try:
-        engine = sqlalchemy.create_engine("sqlite://")
-        Session.configure(bind=engine)
-        Base.metadata.create_all(bind=engine)
-        yield Session()
-    finally:
-        Session.rollback()
-        Session.remove()
+def test_client():
+    client = TestClient(app)
+    app.dependency_overrides[get_db] = override_get_db
+    Base.metadata.create_all(bind=engine)
+    yield client
+    Base.metadata.drop_all(bind=engine)

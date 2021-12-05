@@ -2,24 +2,24 @@ from pytest import fixture
 from datetime import date
 from app.services.employment_report import EmploymentReport
 
-from app.models import WorkRecord
+from app.models import WorkRecord, work_record
 from app.tests.factories.job_group import JobGroupFactory
 from app.tests.factories.work_record import WorkRecordFactory
 
 
-@fixture
+@fixture(scope="function")
 def job_group_a(test_db_session):
     return JobGroupFactory(name="A", hourly_pay=20)
 
 
-@fixture
+@fixture(scope="function")
 def job_group_b(test_db_session):
     return JobGroupFactory(name="B", hourly_pay=30)
 
 
 @fixture
 def timesheet_record_same_period_n_id(test_db_session, job_group_a):
-    return [
+    word_records = [
         WorkRecordFactory(
             date=date(2023, 1, 4),
             employee_id=1,
@@ -33,11 +33,13 @@ def timesheet_record_same_period_n_id(test_db_session, job_group_a):
             work_hour=5,
         ),
     ]
+    test_db_session.commit()
+    return word_records
 
 
 @fixture
-def timesheet_record_differnt_id(test_db_session, job_group_b, job_group_a):
-    return [
+def timesheet_record_differnt_id(test_db_session, job_group_a, job_group_b):
+    word_records = [
         WorkRecordFactory(
             date=date(2023, 1, 20),
             employee_id=1,
@@ -51,13 +53,15 @@ def timesheet_record_differnt_id(test_db_session, job_group_b, job_group_a):
             work_hour=3,
         ),
     ]
+    test_db_session.commit()
+    return word_records
 
 
 @fixture
 def timesheet_record_different_period(
     test_db_session, timesheet_record_same_period_n_id, job_group_a
 ):
-    return [
+    work_records = [
         *timesheet_record_same_period_n_id,
         WorkRecordFactory(
             date=date(2023, 1, 20),
@@ -66,6 +70,9 @@ def timesheet_record_different_period(
             work_hour=4,
         ),
     ]
+
+    test_db_session.commit()
+    return work_records
 
 
 @fixture
