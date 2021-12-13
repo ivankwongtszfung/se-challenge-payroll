@@ -1,0 +1,103 @@
+Good things
+	- typed
+	- clear model
+	- high test coverage (unit test & integration test)
+	- clean code
+	- it separate by small commits
+	- SQLALCHEMY ORM -> support differnt type of db
+	- Alembic for DB migrations
+	- supported in distributed system
+	- easy to extend & change
+	- it is async
+	- accept environment variable
+
+System Architecture:
+	- relational DB (in-mem: sqlite, prod: postgres)
+		- ORM, alembic
+	- REST api endpoints
+	good to have
+		- dockerization (it works in my machine problem)
+		- logging pipeline (log stash, Kibana)
+		- prometheus (monitoring)
+
+Functional Architecture:
+	- PayRoll Report is a summary for all files imported
+	- JobGroup could be multiple
+	- data persist in DB, restart server wouldn't lose data
+	- accept different type of relational DB
+	- reject the same report (check the id)
+	- support async services
+
+Traceoff:
+	I seed data using migrations:
+		pros:
+			- no additional module for seeding
+		cons:
+			- migration is not purely schema changes
+	I use the report id as the id in the db:
+		pros:
+			- reliable conflict check
+		cons:
+			- this is not appropriate, it would be better to use unique constraint
+	I use relational DB:
+		pros:
+			- join operation is much efficient
+			- it fits the usecase as data is quite correlated.
+			- I feel much confortable & confident (given time limit)
+		cons:
+			- we won't save the data if csv is malformed
+			- you cannot scale vertically
+	I handle conflicts using unique constraint in DB
+		pros: 
+			- it is reliable and simple
+			- it works for distributed case
+		cons: 
+			- if two report upload at the same moment, conflict detection of timesheet would be slow
+	I get all the files data at once
+		pros:
+			- this is easier to code
+			- all rows can be commited at the same time
+			- if the file contains error, we can reject the whole file
+		cons:
+			- we have to limit the file-size, even handling multiple request, the sum of the file size fit in memory
+			- we dont persist the history of having a wrong files (I dont think it matter for this case)
+	You must create a new job_group if you need to have different pay
+		pros:
+			- easy to find out the pay
+			- it would be very clear that this line is corresponding to which groups
+		cons:
+			- you may have a lot of job groups, if you use in long time
+			- you cannot change pay for a job group
+	I dont allow multiple paycut
+		pros:
+			- this is way easier to solve this problem
+		cons:
+			- we don't support that
+	
+Limitation:
+	report file size is limited.
+	if two report upload at the same moment, conflict detection of timesheet would be slow
+		if two user import the same report at the same moment, we will have to go through all the lines of the file before we fill out there is a conflicts.
+		
+	You must create a new job_group if you need to have different pay, if you change the group price it affect every record.
+	I assume the report could fit in memory
+	
+	
+Good to have stuff:
+	I dont create
+		- dockerfile
+		- tox.ini
+		- mypy
+		- separate cloud DB
+	async db action
+	log stacktrace when there is an error
+	
+		
+Mistakes:
+	JobGroup/PayPeriod Cutoff is not dynamic
+		- Report n-1 PayPeriod, Report n-n Job Group
+		- can change hourly price
+		- dont cater the history
+			- create an id, activeness for the job group
+			- we link the id instead of the job_group name
+	
